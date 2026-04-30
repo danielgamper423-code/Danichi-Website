@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Danichi Performance Marketing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    /* ─── About-page styles ──────────────────────────────────── */
+
+    /* story section */
+    #story { background: var(--bg); }
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .story-text p {
+      font-size: 16px;
+      line-height: 1.85;
+      color: var(--warm-gray);
+      margin-bottom: 20px;
+    }
+    .story-text p:last-child { margin-bottom: 0; }
+    .story-text p strong { color: var(--dark); font-weight: 700; }
+    .story-visual {
+      position: relative;
+    }
+    .story-stat-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .story-stat {
+      background: var(--white);
+      border: 1px solid var(--warm-gray-pale);
+      border-radius: 20px;
+      padding: 28px 32px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .story-stat:hover { transform: translateX(6px); box-shadow: 0 8px 32px rgba(24,19,14,.07); }
+    .story-stat-num {
+      font-size: 40px;
+      font-weight: 800;
+      color: var(--orange);
+      letter-spacing: -0.04em;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .story-stat-label { font-size: 14px; color: var(--warm-gray); line-height: 1.5; }
+    .story-stat-label strong { display: block; font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 2px; }
+
+    /* team section */
+    #team { background: var(--dark); position: relative; overflow: hidden; }
+    #team::before {
+      content: '';
+      position: absolute;
+      top: -150px; right: -150px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(240,120,48,.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .team-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-top: 56px;
+    }
+    .team-card {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 24px;
+      overflow: hidden;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+    .team-card:hover { border-color: rgba(240,120,48,.25); transform: translateY(-4px); }
+    .team-photo {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: linear-gradient(135deg, var(--dark-2) 0%, rgba(240,120,48,.08) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .team-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+    .team-photo-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%; height: 100%;
+    }
+    .team-initials {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: rgba(240,120,48,.15);
+      border: 2px solid rgba(240,120,48,.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--orange);
+      letter-spacing: -0.02em;
+    }
+    .team-photo-placeholder span {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.2);
+    }
+    .team-info { padding: 28px 32px; }
+    .team-name {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+    .team-role {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 16px;
+    }
+    .team-bio {
+      font-size: 14px;
+      line-height: 1.75;
+      color: rgba(255,255,255,.5);
+    }
+
+    /* values section */
+    #values { background: var(--bg); }
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 56px;
+    }
+    .value-card {
+      background: var(--white);
+      border: 1px solid var(--warm-gray-pale);
+      border-radius: 20px;
+      padding: 32px 28px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+    .value-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(24,19,14,.08);
+      border-color: var(--orange-mid);
+    }
+    .value-icon {
+      width: 44px; height: 44px;
+      background: var(--orange-pale);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+      color: var(--orange);
+    }
+    .value-icon svg { width: 22px; height: 22px; }
+    .value-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--dark);
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+    .value-body {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--warm-gray);
+    }
+
+    /* responsive */
+    @media (max-width: 1024px) {
+      .story-grid { grid-template-columns: 1fr; gap: 48px; }
+      .values-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .team-grid { grid-template-columns: 1fr; }
+      .values-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <svg class="liquid-glass-svg" aria-hidden="true">
+    <defs>
+      <filter id="liquid-glass-filter" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.06 0.06" numOctaves="1" seed="2" result="turbulence"/>
+        <feGaussianBlur in="turbulence" stdDeviation="2" result="blurredNoise"/>
+        <feDisplacementMap in="SourceGraphic" in2="blurredNoise" scale="60" xChannelSelector="R" yChannelSelector="B" result="displaced"/>
+        <feGaussianBlur in="displaced" stdDeviation="3" result="finalBlur"/>
+        <feComposite in="finalBlur" in2="finalBlur" operator="over"/>
+      </filter>
+    </defs>
+  </svg>
+
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- ── Nav ───────────────────────────────────────────────── -->
+  <nav id="nav" class="nav-solid">
+    <a href="index.html" class="nav-logo">
+      <img src="danichi_logo.png" class="nav-logo-dot" alt="Danichi logo" />
+      Danichi
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="index.html#numbers">Results</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+    </ul>
+    <a href="contact.html" class="btn-liquid btn-liquid-warm btn-liquid-sm">Book a Free Call</a>
+  </nav>
+
+  <!-- ── Page Hero ─────────────────────────────────────────── -->
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="section-label" style="color:var(--orange-light)">Our Story</div>
+      <h1 class="page-hero-title">We built this agency<br /><em>for the trades.</em></h1>
+      <p class="page-hero-sub">Two guys who got tired of watching great trade businesses get burned by agencies that promised the world and delivered excuses. So we built something different.</p>
+    </div>
+  </div>
+
+  <!-- ── Story ─────────────────────────────────────────────── -->
+  <section id="story">
+    <div class="story-grid">
+      <div class="story-text reveal">
+        <div class="section-label">How We Started</div>
+        <h2 class="section-headline" style="margin-bottom:28px">We got tired of the same story.</h2>
+        <p>Every trade business owner we talked to had the same frustration — they'd hired a marketing agency, paid thousands a month, and had nothing to show for it. No leads. No accountability. Just monthly reports full of impressions and "brand awareness."</p>
+        <p>We saw the problem clearly: <strong>most agencies optimise for their own retention, not your results.</strong> They charge the same fee whether they deliver or not. That misalignment is why trade businesses keep getting burned.</p>
+        <p>Danichi was built on one principle — <strong>we only win when you win.</strong> No fluff metrics. No long-term lock-in contracts. Just a clear lead target, a clear cost-per-lead, and a guarantee that if we miss it, you don't pay.</p>
+        <p>We focus exclusively on trade businesses because we know the space. We know how your customers search, how they make decisions, and what it takes to get them to pick up the phone.</p>
+      </div>
+      <div class="story-visual reveal reveal-delay-1">
+        <div class="story-stat-stack">
+          <div class="story-stat">
+            <div class="story-stat-num">100%</div>
+            <div class="story-stat-label">
+              <strong>Performance Guarantee</strong>
+              Hit the agreed target or you don't pay. No exceptions.
+            </div>
+          </div>
+          <div class="story-stat">
+            <div class="story-stat-num">$14</div>
+            <div class="story-stat-label">
+              <strong>Average Cost Per Lead</strong>
+              Across all active Danichi clients this quarter.
+            </div>
+          </div>
+          <div class="story-stat">
+            <div class="story-stat-num">48h</div>
+            <div class="story-stat-label">
+              <strong>Launch Turnaround</strong>
+              From signed strategy to live campaign — 48 hours.
+            </div>
+          </div>
+          <div class="story-stat">
+            <div class="story-stat-num">Free</div>
+            <div class="story-stat-label">
+              <strong>Strategy Call</strong>
+              We build your lead plan before you spend a cent.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Team ──────────────────────────────────────────────── -->
+  <section id="team">
+    <div class="section-label" style="color:var(--orange-light)">The Team</div>
+    <h2 class="section-headline light">The people behind<br /><em>the results.</em></h2>
+    <div class="team-grid">
+
+      <div class="team-card reveal">
+        <div class="team-photo">
+          <img src="Untitled design (3).png" alt="Daniel Gamper" style="object-position: center 15%;" />
+        </div>
+        <div class="team-info">
+          <div class="team-name">Daniel Gamper</div>
+          <div class="team-role">Co-Founder &amp; Strategy Lead</div>
+          <p class="team-bio">Daniel leads strategy and client growth at Danichi. He built the performance guarantee model from the ground up after watching too many trade business owners waste money on agencies that weren't accountable for results. Every campaign Danichi runs is built around the framework Daniel developed — leads first, everything else second.</p>
+        </div>
+      </div>
+
+      <div class="team-card reveal reveal-delay-1">
+        <div class="team-photo">
+          <img src="LinkedIn Post (53).png" alt="Malachi" />
+        </div>
+        <div class="team-info">
+          <div class="team-name">Malachi</div>
+          <div class="team-role">Co-Founder &amp; Campaign Manager</div>
+          <p class="team-bio">Malachi runs the operational side of every campaign — builds, launches, and optimises. He lives in the Meta Ads Manager so you don't have to. His obsession with cost-per-lead has driven Danichi's average down to $14 and keeps it there. If a campaign isn't performing, Malachi is the first to know and the first to fix it.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Values ─────────────────────────────────────────────── -->
+  <section id="values">
+    <div style="text-align:center; margin-bottom:0">
+      <div class="section-label" style="justify-content:center">What We Stand For</div>
+      <h2 class="section-headline" style="text-align:center; margin:0 auto">Four principles that <em>drive everything.</em></h2>
+    </div>
+    <div class="values-grid">
+      <div class="value-card reveal">
+        <div class="value-icon">
+          <svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M11 2l2.4 7H21l-6 4.4 2.3 7L11 16.4l-6.3 4 2.3-7L1 9h7.6z"/></svg>
+        </div>
+        <div class="value-title">Performance Over Promises</div>
+        <p class="value-body">We don't sell hope. We set a clear lead target, agree on a cost-per-lead, and put our fee on the line. If we miss, you don't pay. Simple.</p>
+      </div>
+      <div class="value-card reveal reveal-delay-1">
+        <div class="value-icon">
+          <svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="3" width="18" height="16" rx="2"/><path d="M2 8h18M8 3v5"/></svg>
+        </div>
+        <div class="value-title">Trades-Only Focus</div>
+        <p class="value-body">We work exclusively with trade businesses. HVAC, plumbing, electrical, roofing — we know your customers, your seasonality, and your competitive landscape.</p>
+      </div>
+      <div class="value-card reveal reveal-delay-2">
+        <div class="value-icon">
+          <svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M11 3v4M11 15v4M4.2 4.2l2.8 2.8M15 15l2.8 2.8M3 11h4M15 11h4"/></svg>
+        </div>
+        <div class="value-title">Full Transparency</div>
+        <p class="value-body">You get weekly reports showing every lead, what it cost, and where it came from. No black boxes. You'll always know exactly what your marketing is producing.</p>
+      </div>
+      <div class="value-card reveal reveal-delay-3">
+        <div class="value-icon">
+          <svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="3 14 7 10 11 13 19 6"/><polyline points="15 6 19 6 19 10"/></svg>
+        </div>
+        <div class="value-title">Built to Scale</div>
+        <p class="value-body">We don't just get you leads — we build the infrastructure to scale them. Once we hit your target consistently, we work with you to grow volume without blowing your cost-per-lead.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ───────────────────────────────────────────────── -->
+  <section id="cta">
+    <div class="section-label" style="justify-content:center;color:var(--orange-light);margin-bottom:24px">Work With Us</div>
+    <h2 class="cta-headline">Ready to build a<br /><em>real lead pipeline?</em></h2>
+    <p class="cta-sub">Book a free 30-minute strategy call. We'll audit your current lead flow and show you exactly what we'd do. No commitment, no contracts.</p>
+    <div class="cta-actions">
+      <a href="contact.html" class="btn-liquid btn-liquid-warm btn-liquid-lg">
+        Book a Free Strategy Call
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="faq.html" class="btn-liquid btn-liquid-clear btn-liquid-lg">Read the FAQ</a>
+    </div>
+  </section>
+
+  <!-- ── Footer ─────────────────────────────────────────────── -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">
+          <img src="danichi_logo.png" class="nav-logo-dot" alt="Danichi logo" />
+          Danichi
+        </a>
+        <p>Performance marketing for trade businesses across North America. Guaranteed results or you don't pay.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Services</div>
+        <ul class="footer-links">
+          <li><a href="index.html#services">Meta Ads</a></li>
+          <li><a href="index.html#services">Website Design</a></li>
+          <li><a href="index.html#services">Google Reviews</a></li>
+          <li><a href="index.html#services">Reactivation Campaigns</a></li>
+          <li><a href="index.html#services">Analytics</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="index.html#numbers">Results</a></li>
+          <li><a href="index.html#process">Process</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Contact</div>
+        <ul class="footer-links">
+          <li><a href="mailto:daniel@danichi.com">daniel@danichi.com</a></li>
+          <li><a href="contact.html">Book a Free Call</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Danichi. All rights reserved.</span>
+      <span>Performance Marketing Agency</span>
+    </div>
+  </footer>
+
+  <script src="scripts.js"></script>
+</body>
+</html>

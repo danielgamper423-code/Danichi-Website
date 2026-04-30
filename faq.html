@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ — Danichi Performance Marketing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    /* ─── FAQ-page styles ────────────────────────────────────── */
+    #faq-body { background: var(--bg); }
+
+    .faq-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    /* category nav */
+    .faq-sidebar { position: sticky; top: 100px; }
+    .faq-cat-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--warm-gray-light);
+      margin-bottom: 12px;
+    }
+    .faq-cats {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .faq-cats a {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--warm-gray);
+      padding: 9px 14px;
+      border-radius: 10px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .faq-cats a:hover { background: var(--warm-gray-pale); color: var(--dark); }
+    .faq-cats a.active { background: var(--orange-pale); color: var(--orange); font-weight: 600; }
+
+    /* accordion */
+    .faq-section { margin-bottom: 56px; }
+    .faq-section:last-child { margin-bottom: 0; }
+    .faq-section-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .faq-section-title::before { content: ''; width: 20px; height: 1px; background: var(--orange); }
+
+    .faq-item {
+      border: 1px solid var(--warm-gray-pale);
+      border-radius: 16px;
+      margin-bottom: 10px;
+      background: var(--white);
+      overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .faq-item.open { border-color: var(--orange-mid); box-shadow: 0 4px 20px rgba(24,19,14,.06); }
+    .faq-q {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 22px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      cursor: none;
+      text-align: left;
+    }
+    .faq-q-text {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--dark);
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+    }
+    .faq-icon {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--warm-gray-pale);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.2s, transform 0.3s ease;
+      color: var(--warm-gray);
+    }
+    .faq-item.open .faq-icon { background: var(--orange); color: var(--white); transform: rotate(45deg); }
+    .faq-icon svg { width: 14px; height: 14px; }
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+    }
+    .faq-item.open .faq-a { max-height: 500px; }
+    .faq-a-inner {
+      padding: 0 24px 22px;
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--warm-gray);
+    }
+    .faq-a-inner strong { color: var(--dark); }
+    .faq-a-inner a { color: var(--orange); text-decoration: underline; text-underline-offset: 3px; }
+
+    /* responsive */
+    @media (max-width: 900px) {
+      .faq-layout { grid-template-columns: 1fr; }
+      .faq-sidebar { position: static; display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 40px; }
+      .faq-cat-label { width: 100%; }
+      .faq-cats { flex-direction: row; flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+  <svg class="liquid-glass-svg" aria-hidden="true">
+    <defs>
+      <filter id="liquid-glass-filter" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.06 0.06" numOctaves="1" seed="2" result="turbulence"/>
+        <feGaussianBlur in="turbulence" stdDeviation="2" result="blurredNoise"/>
+        <feDisplacementMap in="SourceGraphic" in2="blurredNoise" scale="60" xChannelSelector="R" yChannelSelector="B" result="displaced"/>
+        <feGaussianBlur in="displaced" stdDeviation="3" result="finalBlur"/>
+        <feComposite in="finalBlur" in2="finalBlur" operator="over"/>
+      </filter>
+    </defs>
+  </svg>
+
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- ── Nav ───────────────────────────────────────────────── -->
+  <nav id="nav" class="nav-solid">
+    <a href="index.html" class="nav-logo">
+      <img src="danichi_logo.png" class="nav-logo-dot" alt="Danichi logo" />
+      Danichi
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="index.html#numbers">Results</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="faq.html" class="active">FAQ</a></li>
+    </ul>
+    <a href="contact.html" class="btn-liquid btn-liquid-warm btn-liquid-sm">Book a Free Call</a>
+  </nav>
+
+  <!-- ── Page Hero ─────────────────────────────────────────── -->
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="section-label" style="color:var(--orange-light)">FAQ</div>
+      <h1 class="page-hero-title">Everything you<br /><em>need to know.</em></h1>
+      <p class="page-hero-sub">Straight answers to the questions we hear most. If something isn't covered here, <a href="contact.html" style="color:var(--orange);text-decoration:underline;text-underline-offset:3px">just ask us directly.</a></p>
+    </div>
+  </div>
+
+  <!-- ── FAQ Body ───────────────────────────────────────────── -->
+  <section id="faq-body">
+    <div class="faq-layout">
+
+      <!-- Sidebar nav -->
+      <div class="faq-sidebar reveal">
+        <div class="faq-cat-label">Jump to</div>
+        <ul class="faq-cats">
+          <li><a href="#getting-started" class="active">Getting Started</a></li>
+          <li><a href="#results">Results &amp; Guarantee</a></li>
+          <li><a href="#campaigns">Campaigns &amp; Ads</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#working-together">Working Together</a></li>
+        </ul>
+      </div>
+
+      <!-- Accordion -->
+      <div>
+
+        <!-- Getting Started -->
+        <div class="faq-section reveal" id="getting-started">
+          <div class="faq-section-title">Getting Started</div>
+
+          <div class="faq-item open">
+            <button class="faq-q">
+              <span class="faq-q-text">What kind of businesses do you work with?</span>
+              <span class="faq-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 2v10M2 7h10"/></svg></span>
+            </button>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                We work exclusively with <strong>trade businesses</strong> — HVAC, plumbing, electrical, roofing, landscaping, painting, general contracting, pest control, and similar service businesses. We don't work with e-commerce, SaaS, or non-trade service businesses. This focus is intentional: we know the trades deeply, and that's why our results are consistently strong in this space.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q">
+              <span class="faq-q-text">Do I need a website before working with you?</span>
+              <span class="faq-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 2v10M2 7h10"/></svg></span>
+            </button>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                Not necessarily. <strong>Website design is one of our core services</strong>, and many clients come to us without a site or with an outdated one. We'll build a high-converting landing page as part of the campaign setup. If you already have a website, we'll assess whether it needs changes to maximise conversion before ads go live.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q">
+              <span class="faq-q-text">How does the free strategy call work?</span>
+              <span class="faq-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 2v10M2 7h10"/></svg></span>
+            </button>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                The call is 30 minutes, completely free, and genuinely useful regardless of whether you work with us. We'll research your business, your market, and your competitors before the call. On the call itself, we'll walk you through <strong>exactly how we'd run your campaigns</strong>, what lead volume to expect, and what it would cost per lead. No pressure, no obligation — just a real plan you can keep.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q">
+              <span class="faq-q-text">How long does it take to get started?</span>
+              <span class="faq-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 2v10M2 7h10"/></svg></span>
+            </button>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                After the strategy call and sign-off, <strong>campaigns go live within 48 hours</strong>. This includes full ad creative, audience targeting, landing page setup, and tracking. We move fast because every day without leads is revenue left on the table.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results & Guarantee -->
+        <div class="faq-section reveal" id="results">
+          <div class="faq-section-title">Results &amp; Guarantee</div>
+
+          <div class="faq-item">
+            <button class="faq-q">
+              <span class="faq-q-text">How does the performance guarantee actually work?</span>
+              <span class="faq-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 2v10M2 7h10"/></svg></span>
+            </button>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                Before we start, we agree on a specific <strong>monthly lead target and a maximum cost-per-lead</strong>. If we hit those numbers, you pay our management fee in full. If we miss, we waive all or part of our fee proportionally — you only pay for what we actually deliver. This isn't a vague promise. It's written into our agreement so you're never paying for underperformance.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q">
+              <span class="faq-q-text">How many leads can I realistically expect per month?</span>
+              <span class="faq-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 2v10M2 7h10"/></svg></span>
+            </button>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                It depends on your trade, service area, and ad budget. Our clients typically see <strong>10–40 qualified leads per month</strong>. On the strategy call we'll give you a specific projection based on your market — not a generic range. What we can tell you is our average cost per lead across all active clients is currently $14.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q">
+              <span class="faq-q-text">How long until I start seeing leads come in?</span>
+              <span class="faq-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 2v10M2 7h10"/></svg></span>
+            </button>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                Most clients see their <strong>first leads within 48–72 hours</strong> of campaign launch. The first 2–3 weeks is a learning phase where we're actively optimising targeting and creative based on real data. By the end of month one, campaigns are typically hitting their cost-per-lead target consistently.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q">
+              <span class="faq-q-text">How do you track results and what do I see?</span>
+              <span class="faq-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 2v10M2 7h10"/></svg></span>
+            </button>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                You get a <strong>weekly report</strong> showing every lead generated, the cost per lead, total ad spend, and how we're tracking against the monthly target. We set up full end-to-end tracking so you can see the journey from ad impression to phone call or form submission. No black boxes — you always know exactly where your money is going.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Campaigns -->
+        <div class="faq-section reveal" id="campaigns">
+          <div class="faq-section-title">Campaigns &amp; Ads</div>
+
+          <div class="faq-item">
+            <button class="faq-q">
+              <span class="faq-q-text">What type of ads do you run?</span>
+              <span class="faq-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 2v10M2 7h10"/></svg></span>
+            </button>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                Our primary channel is <strong>Meta (Facebook &amp; Instagram)</strong> — specifically lead generation and conversion campaigns targeting homeowners in your service area. We handle all creative (ad copy, images, video if available), audience targeting, retargeting, and ongoing A/B testing. We also offer Google Reviews campaigns and reactivation campaigns to past customers.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q">
+              <span class="faq-q-text">What makes your ads different from what I could run myself?</span>
+              <span class="faq-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 2v10M2 7h10"/></svg></span>
+            </button>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                Three things: <strong>trade-specific audience data</strong> (we know which targeting signals convert for HVAC vs roofing vs plumbing), <strong>conversion-optimised creative</strong> (built around how trade customers make decisions, not general ad templates), and <strong>daily active management</strong> (we're in the account every day, not checking in weekly). Most business owners running their own ads are leaving 60–70% of their budget on poorly targeted clicks.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q">
+              <span class="faq-q-text">Do I need to provide creative or photos?</span>
+              <span class="faq-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 2v10M2 7h10"/></svg></span>
+            </button>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                No — <strong>we handle all ad creative</strong> as part of the service. If you have photos of your work or team, those always outperform stock images and we'll happily use them. But they're not required. We'll create everything needed to launch a high-performing campaign from day one.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pricing -->
+        <div class="faq-section reveal" id="pricing">
+          <div class="faq-section-title">Pricing</div>
+
+          <div class="faq-item">
+            <button class="faq-q">
+              <span class="faq-q-text">How much does it cost?</span>
+              <span class="faq-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 2v10M2 7h10"/></svg></span>
+            </button>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                Pricing is custom based on your trade, service area, and lead volume goals. <strong>There are two costs</strong>: our management fee (what you pay Danichi) and your ad spend (what goes directly to Meta). We'll give you the exact numbers on the strategy call. What we can say is most clients see positive ROI within the first 30 days — the leads pay for the service.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q">
+              <span class="faq-q-text">Is there a contract or minimum commitment?</span>
+              <span class="faq-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 2v10M2 7h10"/></svg></span>
+            </button>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                <strong>No long-term contracts.</strong> We work on a month-to-month basis. We keep clients by delivering results, not by locking them in. If you want to pause or cancel, you give us notice and we're done — no penalties, no awkward conversations.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q">
+              <span class="faq-q-text">What if I want to pause campaigns for a slow season?</span>
+              <span class="faq-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 2v10M2 7h10"/></svg></span>
+            </button>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                Totally fine. We understand trades are seasonal. <strong>You can pause at any time</strong> with notice. We'll pause ad spend immediately and resume when you're ready — without needing to rebuild from scratch, because we preserve the campaign data.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Working Together -->
+        <div class="faq-section reveal" id="working-together">
+          <div class="faq-section-title">Working Together</div>
+
+          <div class="faq-item">
+            <button class="faq-q">
+              <span class="faq-q-text">How much of my time does this require?</span>
+              <span class="faq-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 2v10M2 7h10"/></svg></span>
+            </button>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                Very little. After the initial onboarding (which takes about an hour), your job is to <strong>answer the phone and close the leads.</strong> We handle everything else — creative, targeting, optimisation, reporting. Most clients spend less than 30 minutes a month on anything related to their marketing with us.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q">
+              <span class="faq-q-text">What makes Danichi different from other marketing agencies?</span>
+              <span class="faq-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 2v10M2 7h10"/></svg></span>
+            </button>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                Three things: <strong>we only work with trade businesses</strong> (so we know your industry, your customers, and your competitive landscape deeply), <strong>we have a performance guarantee</strong> (our fee is tied to results, not just activity), and <strong>we're a small team</strong> (you talk to the people actually running your campaigns, not an account manager who forwards your emails). Most agencies treat trades as a vertical. We treat it as the only thing we do.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q">
+              <span class="faq-q-text">Who will I be working with day-to-day?</span>
+              <span class="faq-icon"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 2v10M2 7h10"/></svg></span>
+            </button>
+            <div class="faq-a">
+              <div class="faq-a-inner">
+                Directly with <strong>Daniel and Malachi</strong> — the co-founders. We're a tight team and every client works with us directly. No layers, no handoffs to junior staff. If you have a question, you message the person who's actually running your campaigns and knows your account inside out.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ───────────────────────────────────────────────── -->
+  <section id="cta">
+    <div class="section-label" style="justify-content:center;color:var(--orange-light);margin-bottom:24px">Still Have Questions?</div>
+    <h2 class="cta-headline">The fastest answer is<br /><em>a 30-minute call.</em></h2>
+    <p class="cta-sub">We'll answer anything on the strategy call — and build you a free lead plan while we're at it.</p>
+    <div class="cta-actions">
+      <a href="contact.html" class="btn-liquid btn-liquid-warm btn-liquid-lg">
+        Book a Free Strategy Call
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="about.html" class="btn-liquid btn-liquid-clear btn-liquid-lg">Meet the Team</a>
+    </div>
+  </section>
+
+  <!-- ── Footer ─────────────────────────────────────────────── -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">
+          <img src="danichi_logo.png" class="nav-logo-dot" alt="Danichi logo" />
+          Danichi
+        </a>
+        <p>Performance marketing for trade businesses across North America. Guaranteed results or you don't pay.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Services</div>
+        <ul class="footer-links">
+          <li><a href="index.html#services">Meta Ads</a></li>
+          <li><a href="index.html#services">Website Design</a></li>
+          <li><a href="index.html#services">Google Reviews</a></li>
+          <li><a href="index.html#services">Reactivation Campaigns</a></li>
+          <li><a href="index.html#services">Analytics</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="index.html#numbers">Results</a></li>
+          <li><a href="index.html#process">Process</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Contact</div>
+        <ul class="footer-links">
+          <li><a href="mailto:daniel@danichi.com">daniel@danichi.com</a></li>
+          <li><a href="contact.html">Book a Free Call</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Danichi. All rights reserved.</span>
+      <span>Performance Marketing Agency</span>
+    </div>
+  </footer>
+
+  <script src="scripts.js"></script>
+  <script>
+    /* ── FAQ accordion ─────────────────────────────────────── */
+    document.querySelectorAll('.faq-q').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const isOpen = item.classList.contains('open');
+        // close all
+        document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+        // open clicked (unless it was already open)
+        if (!isOpen) item.classList.add('open');
+      });
+    });
+
+    /* ── Sidebar active state on scroll ────────────────────── */
+    const sections = document.querySelectorAll('.faq-section');
+    const catLinks  = document.querySelectorAll('.faq-cats a');
+    const scrollObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          catLinks.forEach(a => a.classList.remove('active'));
+          const link = document.querySelector('.faq-cats a[href="#' + e.target.id + '"]');
+          if (link) link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    sections.forEach(s => scrollObs.observe(s));
+  </script>
+</body>
+</html>
